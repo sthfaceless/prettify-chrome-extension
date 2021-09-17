@@ -1,0 +1,46 @@
+#sprettifier_good_words{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+}
+#sprettifier_good_words .sprettifier_good_word{
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 10px;
+    color: #fff;
+    background-color: #00c853;
+}
+#sprettifier_add_good, #sprettifier_add_bad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+}
+#sprettifier_add_good input, #sprettifier_add_bad input{
+    border: gray 2px solid;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px 10px;
+}
+#sprettifier_add_good input:focus, #sprettifier_add_bad input:focus{
+    border: #3b3a3a 2px solid;
+    outline: none;
+}
+#sprettifier_add_good .button, #sprettifier_add_bad .button{
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    color: #fff;
+}
+#sprettifier_add_good .button{
+    background-color: #00c853;
+}
+#sprettifier_add_bad .button{
+    background-color: #b71c1c;
+}
