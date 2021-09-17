@@ -1,0 +1,39 @@
+{
+  "manifest_version": 2,
+  "name": "SPrettifier",
+  "description": "Prettifies pages by removing bad words",
+  "version": "1.0.0",
+  "author": "sthfaceless",
+  "icons": {
+    "16": "prettifier.png",
+    "48": "prettifier.png",
+    "128": "prettifier.png"
+  },
+  "browser_action": {
+    "default_icon": "prettifier.png",
+    "default_title": "SPrettifier",
+    "default_popup": "options.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/extension.js", "js/options.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    "data/*.txt"
+  ],
+  "background": {
+    "scripts": ["js/init.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ]
+}
