@@ -43,10 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("sprettifier_add_good_btn").onclick = () => {
         const input = document.getElementById("sprettifier_add_good_input");
         const word = input.value.trim().toLowerCase();
-        chrome.storage.sync.get({goodWordsUser: []}, items => {
-            const words = items.goodWordsUser.filter(item => item !== word);
+        chrome.storage.sync.get({goodWords: []}, items => {
+            const words = items.goodWords.filter(item => item !== word);
             words.push(word);
-            chrome.storage.sync.set({goodWordsUser: words});
+            chrome.storage.sync.set({goodWords: words});
         })
         input.value = '';
         goodWordsContainer.appendChild(createGoodWord(word, goodWordsContainer));
