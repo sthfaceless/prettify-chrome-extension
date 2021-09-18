@@ -55,7 +55,7 @@ function replaceText(text, goodWords) {
     let node = root;
     let matches = {}
     for (let i = 0; i < text.length; i++) {
-        node = go(node, text[i]);
+        node = go(node, text[i].toLowerCase());
         if (node.terminal)
             matches[i - node.depth + 1] = node.depth;
     }
@@ -95,7 +95,7 @@ chrome.storage.sync.get(null, items => {
     for (const element of elements) {
         for (const node of element.childNodes) {
             if (node.nodeType === 3) {
-                const text = node.nodeValue.toLowerCase();
+                const text = node.nodeValue;
                 const replacedText = replaceText(text, goodWords);
                 if (replacedText !== text) {
                     element.replaceChild(document.createTextNode(replacedText), node);
