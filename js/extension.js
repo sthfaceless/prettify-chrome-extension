@@ -1,10 +1,11 @@
 function createEmptyNode(depth, parent, parentCharacter) {
     return {
-        terminal: false,
         depth: depth + 1,
         link: null,
         parent: parent,
         parentCharacter: parentCharacter,
+        markedSuffix: null,
+        checked: false,
         edges: {}
     }
 }
@@ -26,7 +27,7 @@ function buildTree(words) {
             }
             node = node.edges[ch];
         }
-        node.terminal = true;
+        node.markedSuffix = node;
     }
 }
 
@@ -45,7 +46,6 @@ function getSuffixLink(node) {
         return node.link = root;
     return node.link = go(getSuffixLink(node.parent), node.parentCharacter);
 }
-
 /*
 * Replace bad words in particular tag
 * */
@@ -56,8 +56,8 @@ function replaceText(text, goodWords) {
     let matches = {}
     for (let i = 0; i < text.length; i++) {
         node = go(node, text[i].toLowerCase());
-        if (node.terminal)
-            matches[i - node.depth + 1] = node.depth;
+        if (node.markedSuffix !== null)
+            matches[i - node.markedSuffix.depth + 1] = node.markedSuffix.depth;
     }
     let result = '';
     for (let i = 0; i < text.length; i++) {
@@ -74,6 +74,21 @@ function replaceText(text, goodWords) {
     return result;
 }
 
+function getMarkedSuffix(node){
+    if(node.checked)
+        return node.markedSuffix;
+    node.checked = true;
+    if(node.markedSuffix !== null)
+        return node.markedSuffix;
+    return node.markedSuffix = getMarkedSuffix(getSuffixLink(node));
+}
+
+function dfs(node){
+    getMarkedSuffix(node);
+    for(const child of Object.values(node.edges)){
+        dfs(child);
+    }
+}
 
 function loadFromPrefix(pref, items) {
     const result = [];
@@ -88,6 +103,7 @@ chrome.storage.sync.get(null, items => {
     const badWords = loadFromPrefix("badWords", items);
     const goodWords = loadFromPrefix("goodWords", items);
     buildTree(badWords);
+    dfs(root);
     /*
         Scan all html tags and replace text values from it
     */
